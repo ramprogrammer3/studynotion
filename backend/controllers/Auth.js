@@ -241,3 +241,17 @@ exports.login = async (req, rse) => {
 }
 
 // changePassword
+
+// Todo later
+
+exports.changePassword = async (req, res) => {
+
+    // get data from req body
+    // get oldPassword , newPassword, confirmNewPassword
+    // validate
+
+    // update pwd in DB
+    // send mail - password updated
+
+    // return response
+}
