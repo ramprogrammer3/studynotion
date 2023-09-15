@@ -4,6 +4,7 @@ const OTP = require("../models/OTP");
 const otpGenerator = require('otp-generator');
 const bcrypt = require("bcrypt");
 const Profile = require("../models/Profile");
+const jwt = require("jsonwebtoken");
 
 // send OTP
 
@@ -168,6 +169,75 @@ exports.signUp = async (req, res) => {
 }
 
 
-// singIn
+// login
+
+exports.login = async (req, rse) => {
+    try {
+
+        // get data from req body
+        const { email, password } = req.body;
+
+        // validations data
+
+        if (!email || !password) {
+            return res.status(403).json({
+                success: false,
+                message: "All fields are required, please try again",
+            });
+        }
+
+        // user check exist or not
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "User is not registered, please signup first",
+            });
+        }
+
+        if (await bcrypt.compare(password, user.password)) {
+            const payload = {
+                email: user.email,
+                id: user._id,
+                accountType: user.accountType,
+            }
+
+            const token = jwt.sign(payload, process.env.JWt_SECRED, {
+                expiresIn: "2h",
+            })
+
+            user.tokne = token;
+            user.password = undefined;
+
+            // create cookies and send response
+
+            const options = {
+                expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+                httpOnly: true,
+            }
+
+            res.cookie("token", token, options).status(200).json({
+                success: true,
+                token,
+                user,
+                message: "Logged in successfully",
+            })
+        } else {
+            return res.status(401).json({
+                success: false,
+                message: "Password is incorrect",
+            })
+        }
+
+
+    } catch (error) {
+
+        console.log(error);
+        return res.status(500).json({
+            message: "Login failure, please try again",
+        })
+    }
+}
 
 // changePassword
