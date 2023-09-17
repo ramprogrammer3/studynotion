@@ -84,3 +84,30 @@ exports.updateSection = async (req, res) => {
 
     }
 }
+
+// delete Section
+
+exports.deleteSection = async (req, res) => {
+    try {
+        // get ID assuming that we are sending Id in params
+        const { sectionId } = req.params;
+        // use findByIdAndDelete
+        await Section.findByIdAndDelete(sectionId);
+
+        // Todo , do we need to delete the entry from the course schema ??
+
+        // return response 
+
+        return res.status(200).json({
+            success: true,
+            message: "Section deleted Successfully",
+        })
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: "Unable to delete section, pleae try again",
+            error: error.message,
+        })
+    }
+}
