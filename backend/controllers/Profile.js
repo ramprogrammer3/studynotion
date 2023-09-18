@@ -47,3 +47,39 @@ exports.updateProfile = async (req, res) => {
 
     }
 }
+
+// delete Account
+// Explore how can we schedule this deletion operation
+exports.deleteAccount = async (req, res) => {
+    try {
+
+        // get id
+        const id = req.user.id;
+        // validation
+        const userDetails = await User.findById(id);
+        if (!userDetails) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found ",
+            });
+        }
+
+        // delete profle
+        await Profile.findByIdAndDelete({ _id: userDetails._id });
+        // how to unenroll user from all enrolled course
+        // delete user
+        await User.findByIdAndDelete({ _id: id });
+
+        // return response
+        return res.status(200).json({
+            success: true,
+            message: "User delete Succesfully",
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Unable to delete User, please try again",
+            error: error.message,
+        })
+    }
+};
