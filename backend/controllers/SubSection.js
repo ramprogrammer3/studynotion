@@ -13,7 +13,7 @@ exports.createSubSection = async (req, res) => {
         // extract file/video
         const video = req.files.videoFile;
         // validation
-        if (!sectionId || !title || !timeDuration || !description) {
+        if (!sectionId || !title || !timeDuration || !description || !video) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required",
@@ -38,17 +38,15 @@ exports.createSubSection = async (req, res) => {
             {
                 $push: { subSection: subSectionDetails._id },
             },
-            { new: TextTrackCue }
-        )
-
-        // HW : log updated section here, after adding populate query 
+            { new: true }
+        ).populate("subSection");
 
         // return response
 
         return res.status(200).json({
             success: true,
             message: "Sub section created successfully",
-            updatedSection,
+            data : updatedSection,
         })
 
     } catch (error) {
