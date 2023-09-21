@@ -36,7 +36,7 @@ exports.resetPasswordToken = async (req, res) => {
         const url = `http://localhost:3000/update-password/${token}`;
 
         // send mail containing the user
-        await mailSender(email, "password Reset Link", `Password Reset Link ${url}`);
+        await mailSender(email, "password Reset Link", `your link for email verification is ${url} . please click this url to reset your password`);
 
         // return response
         return res.status(200).json({
@@ -65,7 +65,7 @@ exports.resetPassword = async (req, res) => {
         if (password !== confirmPassword) {
             return res.status(403).json({
                 success: false,
-                message: "Password not matching",
+                message: "Password and confirm password does not match",
             })
         }
 
@@ -110,7 +110,7 @@ exports.resetPassword = async (req, res) => {
         console.log(error);
         return res.status(500).json({
             success: false,
-            message: 'Something went wrong while sending reset pwd mail'
-        })
+            message: 'Some error in updating the password'
+        });
     }
 }
