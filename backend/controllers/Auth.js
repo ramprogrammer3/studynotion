@@ -5,6 +5,7 @@ const otpGenerator = require('otp-generator');
 const bcrypt = require("bcrypt");
 const Profile = require("../models/Profile");
 const jwt = require("jsonwebtoken");
+const mailSender = require("../utils/mailSender");
 
 // send OTP
 
@@ -118,7 +119,7 @@ exports.signUp = async (req, res) => {
                 success: false,
                 message: "OTP not found ",
             })
-        } else if (otp !== recentOpt.otp) {
+        } else if (otp !== recentOpt[0].otp) {
             // invalid otp
             return res.status(400).json({
                 success: false,
@@ -129,7 +130,11 @@ exports.signUp = async (req, res) => {
         // hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // create a profile
+        // create the user
+        let approved = "";
+        approved === "Instructor" ? (approved = false) : (approved = true);
+
+        // create the additional profile for user
 
         const profileDetails = await Profile.create({
             gender: null,
@@ -147,6 +152,7 @@ exports.signUp = async (req, res) => {
             contactNumber,
             password: hashedPassword,
             accountType,
+            approved: approved,
             additionalDetails: profileDetails._id,
             image: `https://api.dicebear.com/7.x/pixel-art/svg?seed=${firstname} ${lastName}`,
         })
@@ -207,7 +213,7 @@ exports.login = async (req, rse) => {
                 expiresIn: "2h",
             })
 
-            user.tokne = token;
+            user.token = token;
             user.password = undefined;
 
             // create cookies and send response
@@ -246,12 +252,80 @@ exports.login = async (req, rse) => {
 
 exports.changePassword = async (req, res) => {
 
-    // get data from req body
-    // get oldPassword , newPassword, confirmNewPassword
-    // validate
+    try {
+        // get data from req body
+        const userDetails = await User.findById(req.user.id);
+        // get oldPassword , newPassword, confirmNewPassword
+        const { oldPassword, newPassword, confirmNewPassword } = req.body;
+        // validate
+        const isPasswordMatch = await bcrypt.compare(
+            oldPassword, userDetails.password
+        );
 
-    // update pwd in DB
-    // send mail - password updated
+        if (!isPasswordMatch) {
+            // if old Password does not match, return a 401(Unauthorized) error
 
-    // return response
+            return res.status(401).json({
+                success: false,
+                message: "The password is incorrect",
+            })
+        }
+
+        // match new password and confirm new Password
+
+        if (newPassword !== confirmNewPassword) {
+            // If new Password and confirm new password do not match
+            // return a 400 (Bad request) error
+
+            return res.status(400).json({
+                success: fasle,
+                message: "The password and confirm password does not match",
+            });
+        }
+
+        // update password
+        const encryptedPassword = await bcrypt.hash(newPassword, 10);
+        const updatedUserDetails = await User.findByIdAndUpdate(
+            req.user.id,
+            { password: encryptedPassword },
+            { new: true }
+        );
+
+        // send notification mail
+
+        try {
+            const emailResponse = await mailSender(
+                updatedUserDetails.email,
+                passwordUpdated(
+                    updatedUserDetails.email,
+                    `password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName} ` 
+                )
+            );
+            console.log("Email sent successfully : ", emailResponse.response);
+        } catch (error) {
+
+            return res.status(500).json({
+                success : false,
+                message : "Error occured while sending email",
+                error : error.message
+            })
+            
+        }
+
+        // return success response
+        return res.status(200).json({
+            success : true,
+            message : "Password updated successfully"
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            success : false,
+            message : "Error occured while updating password",
+            error : error.message,
+        })
+
+    }
+    
 }
