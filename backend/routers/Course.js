@@ -71,3 +71,19 @@ router.post("/getCourseDetails", getCourseDetails);
 router.post("/createCategory",auth,isAdmin,createCategory);
 router.get("/showAllCategories" , showAllCategory);
 router.post("/getCategoryPageDetails",categoryPageDetails);
+
+
+/*
+
+***********************************************************************************************
+                        Rating and reviews
+***********************************************************************************************
+
+*/
+
+router.post("/createRating",auth,isStudent,createRating);
+router.get("/getAverageRating",getAverageRating);
+router.get("/getRevies",getAllRating)
+
+
+module.exports = router;
