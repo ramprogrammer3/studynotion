@@ -57,3 +57,17 @@ router.get("/getAllCourses", showAllCourses);
 // get Details for a specific Course
 router.post("/getCourseDetails", getCourseDetails);
 
+/*
+
+***********************************************************************************************
+                        Category routes (only by admin)
+***********************************************************************************************
+
+*/
+
+// category can only be created by admin
+// Todo put isAdmin middlewre here
+
+router.post("/createCategory",auth,isAdmin,createCategory);
+router.get("/showAllCategories" , showAllCategory);
+router.post("/getCategoryPageDetails",categoryPageDetails);
