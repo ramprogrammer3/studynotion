@@ -11,8 +11,9 @@ exports.createCourse = async (req, res) => {
     try {
 
         // fetch data
+        const userId = req.user.id;
 
-        const { courseName, courseDescription, whatYouWillLearn, price, tag, category, status, instructions } = req.body;
+        let { courseName, courseDescription, whatYouWillLearn, price, tag, category, status, instructions } = req.body;
 
         // get thumbnail
         const thumbnail = req.files.thumbnailImage;
@@ -32,7 +33,7 @@ exports.createCourse = async (req, res) => {
 
         // check for instructor
 
-        const userId = req.user.id;
+      
         const instructorDetails = await User.findById(userId, { accountType: "Instructor" });
         console.log("Instructor details ", instructorDetails);
 

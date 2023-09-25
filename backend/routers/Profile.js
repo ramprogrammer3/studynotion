@@ -12,7 +12,7 @@ const { deleteAccount, updateProfile, getAllUserDetails, updateDisplayPicture, g
     ***********************************************************************************************************
 */
 
-router.delete("/deleteProfile", deleteAccount);
+router.delete("/deleteProfile", auth,deleteAccount);
 router.put("/updateProfle", auth, updateProfile);
 router.get("/getUserDetails", auth, getAllUserDetails);
 // get Enrolled course

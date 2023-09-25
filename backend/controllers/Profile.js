@@ -1,6 +1,7 @@
 
 const Profile = require("../models/Profile");
 const User = require("../models/User");
+const {uploadImageToCloudinary} = require("../utils/imageUploader");
 
 // update profile handler 
 exports.updateProfile = async (req, res) => {
@@ -115,6 +116,7 @@ exports.getAllUserDetails = async (req, res) => {
 
 exports.updateDisplayPicture = async (req, res) => {
     try {
+  
         const displayPicture = req.files.displayPicture
         const userId = req.user.id
         const image = await uploadImageToCloudinary(
@@ -137,7 +139,7 @@ exports.updateDisplayPicture = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             success: false,
-            message: error.message,
+            message: "unable to change profile picture",
         })
     }
 };

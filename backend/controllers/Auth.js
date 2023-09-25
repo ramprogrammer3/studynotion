@@ -42,10 +42,7 @@ exports.sendOTP = async (req, res) => {
         while (result) {
             otp = otpGenerator.generate(6, {
                 upperCaseAlphabets: false,
-                lowerCaseAlphabets: false,
-                specialChars: false,
             })
-            result = await OTP.findOne({ otp: otp });
         }
 
 
@@ -53,7 +50,7 @@ exports.sendOTP = async (req, res) => {
 
         // create an entry for otp
         const otpBody = await OTP.create(otpPayload);
-        console.log(otpBody);
+        console.log( "otp body",otpBody);
 
         // return response successfully
 
@@ -113,13 +110,13 @@ exports.signUp = async (req, res) => {
         console.log(recentOpt);
 
         // validate otp
-        if (recentOpt.length == 0) {
+        if (recentOpt.length === 0) {
             // otp not found
             return res.status(400).json({
                 success: false,
                 message: "OTP not found ",
             })
-        } else if (otp !== recentOpt[0].otp) {
+        } else if (otp !== recentOpt.otp) {
             // invalid otp
             return res.status(400).json({
                 success: false,
@@ -154,7 +151,7 @@ exports.signUp = async (req, res) => {
             accountType,
             approved: approved,
             additionalDetails: profileDetails._id,
-            image: `https://api.dicebear.com/7.x/pixel-art/svg?seed=${firstname} ${lastName}`,
+            image: `https://api.dicebear.com/7.x/pixel-art/svg?seed=${firstName} ${lastName}`,
         })
 
         // return response
@@ -177,7 +174,7 @@ exports.signUp = async (req, res) => {
 
 // login
 
-exports.login = async (req, rse) => {
+exports.login = async (req, res) => {
     try {
 
         // get data from req body
