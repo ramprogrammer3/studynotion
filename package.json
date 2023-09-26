@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "frontend" : "cd frontend && npm start",
     "backend" : "cd backend && npm start",
-    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+    "dev": "concurrently -n \"frontend,backend\" -c \"bgBlue,bgYellow\" \"npm run frontend\" \"npm run backend\""
   },
   "author": "",
   "license": "ISC",
