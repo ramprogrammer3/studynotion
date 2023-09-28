@@ -37,13 +37,13 @@ exports.sendOTP = async (req, res) => {
 
         // check unique otp or not
 
-        let result = await OTP.findOne({ otp: otp });
+        // let result = await OTP.findOne({ otp: otp });
 
-        while (result) {
-            otp = otpGenerator.generate(6, {
-                upperCaseAlphabets: false,
-            })
-        }
+        // while (result) {
+        //     otp = otpGenerator.generate(6, {
+        //         upperCaseAlphabets: false,
+        //     })
+        // }
 
 
         const otpPayload = { email, otp };
@@ -54,7 +54,7 @@ exports.sendOTP = async (req, res) => {
 
         // return response successfully
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "OTP Sent successfully",
             otp

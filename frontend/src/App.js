@@ -1,10 +1,14 @@
 import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import Home from './pages/Home'
 
 const App = () => {
   return (
-    <div>
-      <h1> this is heading one </h1>
-      <h2> this is heading one </h2>
+    <div className='w-screen min-h-screen bg-richblack-900 flex flex-col font-inter'>
+      <Routes>
+        <Route path='/' element = {<Home />}  />
+        
+      </Routes>
     </div>
   )
 }

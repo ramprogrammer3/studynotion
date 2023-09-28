@@ -1,12 +1,37 @@
-
 const nodemailer = require("nodemailer");
 require("dotenv").config()
-
 const mailSender = async (email, title, body) => {
     try {
-        
+
         let transporter = nodemailer.createTransport({
-            // host: process.env.MAIL_HOST,
+            host: process.env.MAIL_HOST,
+            auth: {
+                user: process.env.MAIL_USER,
+                pass: process.env.MAIL_PASS
+            }
+        })
+
+        let info = await transporter.sendMail({
+            from: `ramkumar`,
+            to: email,
+            subject: "video uploaded ",
+            html: `<h2> software engineer </h2>`
+        })
+
+       return info;
+ 
+    } catch (error) {
+        
+        console.log("line 23")
+    }
+}
+module.exports = mailSender;
+
+
+
+
+
+// host: process.env.MAIL_HOST,
             // auth: {
             //     user: process.env.MAIL_USER,
             //     pass: process.env.MAIL_PASS,
@@ -16,28 +41,3 @@ const mailSender = async (email, title, body) => {
             //     user : "developer.ramkumar07.gmail.com",
             //     pass : "xdgodxiflqjsmbyj"
             // },
-            host :"smtp.gmail.com",
-            auth : {
-                user : "developer.rammaniyari@gmail.com",
-                pass : "ltab uejf xbew dbcf"
-            },
-        })
-        
-        let info = await transporter.sendMail({
-            from: "StudyNotion - ram kumar",
-            to: `${email}`,
-            subject: `${title}`,
-            html: `${body}`,
-        })
-
-        console.log("info ", info);
-        console.log("ram kumar")
-
-        return info;
-    } catch (error) {
-        console.log(error.message);
-    }
-}
-
-
-module.exports = mailSender;
