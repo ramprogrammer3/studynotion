@@ -14,8 +14,8 @@ const mailSender = async (email, title, body) => {
         let info = await transporter.sendMail({
             from: `ramkumar`,
             to: email,
-            subject: "video uploaded ",
-            html: `<h2> software engineer </h2>`
+            subject: title,
+            html: body,
         })
 
        return info;
@@ -28,16 +28,3 @@ const mailSender = async (email, title, body) => {
 module.exports = mailSender;
 
 
-
-
-
-// host: process.env.MAIL_HOST,
-            // auth: {
-            //     user: process.env.MAIL_USER,
-            //     pass: process.env.MAIL_PASS,
-            // }
-            // host :"smtp.gmail.com",
-            // auth : {
-            //     user : "developer.ramkumar07.gmail.com",
-            //     pass : "xdgodxiflqjsmbyj"
-            // },

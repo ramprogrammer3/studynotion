@@ -2,6 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-html,body{
+html,
+body {
     overflow-x: hidden;
+}
+
+.homepage_bg {
+    background-image: url(../src//assets/Images/bghome.svg);
+}
+
+.gradient1 {
+    background: var(--gradient-10, linear-gradient(118deg, #5433FF -4%, #20BDFF 51.26%, #A5FECB 106.52%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Display md/Semibold 
+    font-family: Inter;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 44px;
+    letter-spacing: -0.72px;
+
+    */
+}
+
+.shadowInstructor {
+    box-shadow: -20px -20px 0px 0px #FFF;
+}
+
+.instructorGradient {
+    background: var(--gradient-05, linear-gradient(118deg, #1FA2FF -3.62%, #12D8FA 50.44%, #A6FFCB 104.51%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Display md/Semibold 
+    font-family: Inter;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 44px;
+    letter-spacing: -0.72px;
+
+    */
 }

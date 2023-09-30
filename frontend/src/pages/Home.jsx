@@ -5,6 +5,10 @@ import HighlightText from '../components/core/Homepage/HighlightText'
 import CTAButton from "../components/core/Homepage/Button"
 import Banner from "../assets/Images/banner.mp4"
 import CodeBlocks from '../components/core/Homepage/CodeBlocks'
+import TimeLineSection from '../components/core/Homepage/TimeLineSection'
+import LearningLanguageSection from '../components/core/Homepage/LearningLanguageSection'
+import InstructorSection from '../components/core/Homepage/InstructorSection'
+import Footer from '../components/common/Footer'
 
 const Home = () => {
     return (
@@ -106,7 +110,7 @@ const Home = () => {
                             <div className='text-4xl font-semibold'>
                                 Start
                                 <HighlightText text={" Coding in seconds "} />
-                               
+
                             </div>
 
                         }
@@ -131,7 +135,7 @@ const Home = () => {
                             }
                         }
 
-                        codeblock={`<!DOCTYPE html>\n<html>\n<head>\n<>Example</        title>\n<linkrel="stylesheet"href="styles.css">\n</head>
+                        codeblock={`<!DOCTYPE html>\n<html>\n<head>\n<title>Example</        title>\n<linkrel="stylesheet"href="styles.css">\n</head>
                             <body>
                                     <h1> <a href="/">Header</a> </h1>
                             <nav>
@@ -151,11 +155,62 @@ const Home = () => {
 
             {/* section 2  */}
 
+            <div className='bg-pure-greys-5 text-richblack-700'>
 
+                <div className='homepage_bg h-[333px]'>
+
+                    <div className='w-11/12 max-w-maxContent flex flex-col items-center gap-5 mx-auto'>
+
+                        <div className='h-[100px]'></div>
+
+                        <div className='flex flex-row gap-7 text-white'>
+
+                            <CTAButton active={true} linkto={"/signup"}>
+                                <div className='flex gap-3 items-center'>
+                                    Explore Full Catalog
+                                    <FaArrowRight />
+                                </div>
+                            </CTAButton>
+                            <CTAButton active={false} linkto={"/signup"}>
+                                <div>
+                                    Learn More
+                                </div>
+                            </CTAButton>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='mx-auto w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-7'>
+                    <div className='flex gap-5 flex-row mb-10 mt-10'>
+                        <div className='text-4xl font-semibold w-[45%]'>
+                            Get the skills you need for a <HighlightText text={" job that is in demand ."} />
+                        </div>
+                        <div className='flex flex-col gap-10 w-[40%] items-start'>
+                            <div className='text-[16px]'>
+                                The modern StudyNotion is the dictates its own terms. Today, to be a competitive specialist requires more than professional skills.
+                            </div>
+                            <CTAButton active={true} linkto={"/signup"}>
+                                Learn More
+                            </CTAButton>
+                        </div>
+                    </div>
+                    <TimeLineSection />
+                    <LearningLanguageSection />
+
+                </div>
+            </div>
             {/* section 3  */}
 
+            <div className='w-11/12 mx-auto max-w-maxContent flex flex-col items-center gap-8 first-letter: bg-richblack-900 text-white'>
+
+                <InstructorSection />
+                <h2 className='text-center text-4xl font-semibold mt-10'> Review from Other Learners </h2>
+                {/* Review slider here  */}
+            </div>
 
             {/* footer  */}
+
+            <Footer />
 
         </div>
     )
